@@ -98,9 +98,9 @@ class OAIComponent(TenantWithContainer):
 
                 # Loop 3 need network type for EPC
                 for ntype in ["wan_network", "management", "management_host"]:
-                network = self.get_lan_network(instance, ntype)
-                port = self.find_or_make_port(instance, network)
-                port.save()
+                    network = self.get_lan_network(instance, ntype)
+                    port = self.find_or_make_port(instance, network)
+                    port.save()
 
     def delete(self, *args, **kwargs):
         # Delete the instance that was created for this tenant
