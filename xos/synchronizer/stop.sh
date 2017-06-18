@@ -1,2 +1,2 @@
 # Kill the observer
-pkill -9 -f vbbu-synchronizer.py
+pkill -9 -f oai-synchronizer.py
