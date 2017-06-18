@@ -97,7 +97,7 @@ class OAIComponent(TenantWithContainer):
             if instance.isolation in ["vm"]:
 
                 # Loop 3 need network type for EPC
-                for ntype in ["wan_network", "management", "management_host"]
+                for ntype in ["wan_network", "management", "management_host"]:
                 network = self.get_lan_network(instance, ntype)
                 port = self.find_or_make_port(instance, network)
                 port.save()
