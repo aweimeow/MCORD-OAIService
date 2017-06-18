@@ -21,24 +21,4 @@ class Migration(migrations.Migration):
             },
             bases=('core.service',),
         ),
-        migrations.CreateModel(
-            name='VBBUComponent',
-            fields=[
-            ],
-            options={
-                'verbose_name': 'VBBU MCORD Service Component',
-                'proxy': True,
-            },
-            bases=('core.tenantwithcontainer',),
-        ),
-        migrations.CreateModel(
-            name='VPGWCComponent',
-            fields=[
-            ],
-            options={
-                'verbose_name': 'VPGWC MCORD Service Component',
-                'proxy': True,
-            },
-            bases=('core.tenantwithcontainer',),
-        ),
     ]

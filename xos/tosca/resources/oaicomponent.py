@@ -1,14 +1,14 @@
-from services.vbbu.models import VBBUComponent, MCORDService
+from services.vbbu.models import OAIComponent, MCORDService
 from xosresource import XOSResource
 
-class XOSVBBUComponent(XOSResource):
-    provides = "tosca.nodes.VBBUComponent"
-    xos_model = VBBUComponent
-    copyin_props = ["s1u_tag", "s1mme_tag", "rru_tag", "display_message"]
+class XOSOAIComponent(XOSResource):
+    provides = "tosca.nodes.OAIComponent"
+    xos_model = OAIComponent
+    copyin_props = ["display_message"]
     name_field = None
 
     def get_xos_args(self, throw_exception=True):
-        args = super(XOSVBBUComponent, self).get_xos_args()
+        args = super(XOSOAIComponent, self).get_xos_args()
 
         provider_name = self.get_requirement("tosca.relationships.MemberOfService", throw_exception=throw_exception)
         if provider_name:
@@ -20,12 +20,12 @@ class XOSVBBUComponent(XOSResource):
         args = self.get_xos_args(throw_exception=False)
         provider_service = args.get("provider", None)
         if provider_service:
-            return [ self.get_xos_object(provider_service=provider_service) ]
+            return [self.get_xos_object(provider_service=provider_service)]
         return []
 
     def postprocess(self, obj):
         pass
 
     def can_delete(self, obj):
-        return super(XOSVBBUComponent, self).can_delete(obj)
+        return super(XOSOAIComponent, self).can_delete(obj)
 

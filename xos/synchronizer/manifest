@@ -1,8 +1,8 @@
 model-deps
-vbbu-synchronizer.py
-vbbu_config
-steps/sync_vbbu.py
-steps/sync_vbbu.yaml
+oai-synchronizer.py
+oai_config
+steps/sync_oai.py
+steps/sync_oai.yaml
 stop.sh
 manifest
 __init__.py
