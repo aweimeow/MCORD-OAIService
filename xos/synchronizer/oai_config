@@ -13,7 +13,7 @@ nova_enabled=True
 # Sets options for the observer
 [observer]
 # Optional name
-name=oaiservice
+name=oai
 # This is the location to the dependency graph you generate
 dependency_graph=/opt/xos/synchronizers/oai/model-deps
 # The location of your SyncSteps
