@@ -22,9 +22,6 @@ MCORD_KIND = "EPC"
 OAI_KIND = "EPC"
 MCORD_USE_VTN = getattr(Config(), "networking_use_vtn", False)
 
-vbbu_net_types = ("s1u", "s1mme", "rru")
-vpgwc_net_types = ("s5s8")
-
 
 # The class to represent the service. Most of the service logic is given for us
 # in the Service class but, we have some configuration that is specific for
