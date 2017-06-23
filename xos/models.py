@@ -108,7 +108,7 @@ class OAIComponent(TenantWithContainer):
         port = Port.objects.filter(instance=instance, network=network)
         if port:
             port = port[0]
-            print "port already exist", port[0]
+            print "port already exist", port
         else:
             port = Port(instance=instance, network=network, **kwargs)
             print "NETWORK", network, "MAKE_PORT", port 
