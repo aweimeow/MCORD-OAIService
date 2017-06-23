@@ -1,0 +1,596 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+description: Setup MCORD-related services.
+
+imports:
+   - custom_types/xos.yaml
+
+node_types:
+
+    tosca.nodes.MCORDService:
+        derived_from: tosca.nodes.Root
+        description: >
+            An XOS Service object. Services may be listed in the Service
+            directory and may be linked together via Tenancy Relationships.
+        capabilities:
+            scalable:
+                type: tosca.capabilities.Scalable
+            service:
+                type: tosca.capabilities.xos.Service
+        properties:
+            no-delete:
+                type: boolean
+                default: false
+                description: Do not allow Tosca to delete this object
+            no-create:
+                type: boolean
+                default: false
+                description: Do not allow Tosca to create this object
+            no-update:
+                type: boolean
+                default: false
+                description: Do not allow Tosca to update this object
+            kind:
+                type: string
+                default: RAN
+                description: Type of service.
+            view_url:
+                type: string
+                required: false
+                description: URL to follow when icon is clicked in the Service Directory.
+            icon_url:
+                type: string
+                required: false
+                description: ICON to display in the Service Directory.
+            enabled:
+                type: boolean
+                default: true
+            published:
+                type: boolean
+                default: true
+                description: If True then display this Service in the Service Directory.
+            public_key:
+                type: string
+                required: false
+                description: Public key to install into Instances to allows Services to SSH into them.
+            private_key_fn:
+                type: string
+                required: false
+                description: Location of private key file
+            versionNumber:
+                type: string
+                required: false
+                description: Version number of Service.
+
+    #VMME service node type; should probably be switched with generic MCORDservice node
+    tosca.nodes.VMMEService:
+        derived_from: tosca.nodes.Root
+        description: >
+            An XOS Service object. Services may be listed in the Service
+            directory and may be linked together via Tenancy Relationships.
+        capabilities:
+            scalable:
+                type: tosca.capabilities.Scalable
+            service:
+                type: tosca.capabilities.xos.Service
+        properties:
+            no-delete:
+                type: boolean
+                default: false
+                description: Do not allow Tosca to delete this object
+            no-create:
+                type: boolean
+                default: false
+                description: Do not allow Tosca to create this object
+            no-update:
+                type: boolean
+                default: false
+                description: Do not allow Tosca to update this object
+            kind:
+                type: string
+                default: RAN
+                description: Type of service.
+            view_url:
+                type: string
+                required: false
+                description: URL to follow when icon is clicked in the Service Directory.
+            icon_url:
+                type: string
+                required: false
+                description: ICON to display in the Service Directory.
+            enabled:
+                type: boolean
+                default: true
+            published:
+                type: boolean
+                default: true
+                description: If True then display this Service in the Service Directory.
+            public_key:
+                type: string
+                required: false
+                description: Public key to install into Instances to allows Services to SSH into them.
+            private_key_fn:
+                type: string
+                required: false
+                description: Location of private key file
+            versionNumber:
+                type: string
+                required: false
+                description: Version number of Service.
+
+    tosca.nodes.VMMETenant:
+        derived_from: tosca.nodes.Root
+        description: >
+            A Tenant of the VMME Service
+        properties:
+            kind:
+                type: string
+                default: vEPC
+                description: Kind of tenant
+            service_specific_id:
+                type: string
+                required: false
+                description: Service specific ID opaque to XOS but meaningful to service
+            s1mme_tag:
+                type: string
+                required: false
+                default: 600   #chosen at random
+                description: VTN stag port-name
+            tenant_message:
+                type: string
+                required: false
+                default: New vMME Tenant
+                description: Just a message
+            image_name: 
+                type: string
+                required: true
+                default: default
+                description: Name of VM image
+
+    tosca.nodes.VBBUComponent:
+        derived_from: tosca.nodes.Root
+        description: >
+            CORD: vBBU Component of MCORD Service.
+        properties:
+            kind:
+                type: string
+                default: RAN 
+                description: Kind of component
+            s1u_tag:
+                type: string
+                required: false
+                default: 901
+                description: VTN stag port-name
+            s1mme_tag:
+                type: string
+                required: false
+                default: 900
+                description: VTN stag port-name
+            rru_tag:
+                type: string
+                required: false
+                default: 999 
+                description: VTN stag port-name
+            display_message:
+                type: string
+                required: false
+                default: New vBBU Component 
+                description: Just a message 
+
+    tosca.nodes.OAIComponent:
+        derived_from: tosca.nodes.Root
+        description: >
+            CORD: OAI Component of MCORD Service.
+        properties:
+            kind:
+                type: string
+                default: EPC
+                description: Kind of Component
+            display_message:
+                type: string
+                required: false
+                default: New OAI Component
+                description: Just a message
+            image_name:
+                type: string
+                required: true
+                default: default
+                description: Image Name of OAIComponent
+
+    tosca.nodes.VPGWCComponent:
+        derived_from: tosca.nodes.Root
+        description: >
+            CORD: vPGWC Component of MCORD Service.
+        properties:
+            kind:
+                type: string
+                default: VPGWC_KIND
+                description: Kind of component
+            s5s8_pgw_tag:
+                type: string
+                required: false
+                default: 300
+                description: VTN stag port-name
+            display_message:
+                type: string
+                required: false
+                default: New vPGWc Component 
+                description: Just a message 
+
+    tosca.nodes.VSGWTenant:
+        derived_from: tosca.nodes.Root
+        description: >
+            A Tenant of the VSGW Service
+        properties:
+            kind:
+                type: string
+                default: generic
+                description: Kind of tenant
+            service_specific_id:
+                type: string
+                required: false
+                description: Service specific ID opaque to XOS but meaningful to service
+            tenant_message:
+                type: string
+                required: false
+                default: New vSGW Tenant
+                description: Just a message
+
+topology_template:
+  node_templates:
+
+    oai:
+      type: tosca.nodes.MCORDService
+      requirements:
+      properties:
+          kind: vEPC
+          icon_url: /static/mCordServices/service_server.png
+          view_url: /admin/oai/oaicomponent
+          public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
+          private_key_fn: /opt/xos/services/oai/keys/oai_rsa
+      artifacts:
+          pubkey: /opt/xos/services/oai/keys/oai_rsa.pub
+
+    vBBU:
+      type: tosca.nodes.MCORDService
+      requirements:
+      properties:
+          kind: RAN
+          icon_url: /static/mCordServices/service_server.png
+          view_url: /admin/vbbu/vbbucomponent
+          public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
+          private_key_fn: /opt/xos/services/vbbu/keys/vBBU_rsa
+      artifacts:
+          pubkey: /opt/xos/services/vbbu/keys/vBBU_rsa.pub
+
+    vPGWC:
+      type: tosca.nodes.MCORDService
+      requirements:
+      properties:
+          kind: vEPC
+          icon_url: /static/mCordServices/service_server.png
+          view_url: /admin/vpgwc/vpgwccomponent
+          public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
+          private_key_fn: /opt/xos/services/vpgwc/keys/vPGWC_rsa
+      artifacts:
+          pubkey: /opt/xos/services/vpgwc/keys/vPGWC_rsa.pub
+
+    vSGW:
+      type: tosca.nodes.MCORDService
+      requirements:
+      properties:
+          kind: vEPC
+          icon_url: /static/mCordServices/service_server.png
+          view_url: /admin/vsgw/vsgwtenant
+          public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
+          private_key_fn: /opt/xos/services/vsgw/keys/vSGW_rsa
+      artifacts:
+          pubkey: /opt/xos/services/vsgw/keys/vSGW_rsa.pub
+
+    vMME:
+      type: tosca.nodes.VMMEService
+      requirements:
+          - management:
+              node: management
+              relationship: tosca.relationships.UsesNetwork
+      properties:
+          kind: vEPC
+          icon_url: /static/mCordServices/service_server.png
+          view_url: /admin/vmme/vmmetenant
+          public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
+          private_key_fn: /opt/xos/services/vmme/keys/vMME_rsa
+      artifacts:
+          pubkey: /opt/xos/services/vmme/keys/vMME_rsa.pub
+
+
+    m1.xlarge:
+      type: tosca.nodes.Flavor
+
+    Private:
+      type: tosca.nodes.NetworkTemplate
+
+    External:
+      type: tosca.nodes.NetworkTemplate
+
+    management_template:
+      type: tosca.nodes.NetworkTemplate
+      properties:
+          visibility: private
+          translation: none
+
+    management:
+      type: tosca.nodes.network.Network.XOS
+#      properties:
+#          no-create: true
+#          no-delete: true
+#          no-update: true
+
+    management_hosts_template:
+      type: tosca.nodes.NetworkTemplate
+      properties:
+          visibility: private
+          translation: none
+          vtn_kind: MANAGEMENT_HOST
+
+    management_host:
+      type: tosca.nodes.network.Network.XOS
+      properties:
+          ip_version: 4
+          cidr: 10.6.0.0/24
+          start_ip: 10.6.0.128
+          end_ip: 10.6.0.254
+      requirements:
+          - network_template:
+              node: management_hosts_template
+              relationship: tosca.relationships.UsesNetworkTemplate
+          - owner:
+              node: mysite_management
+              relationship: tosca.relationships.MemberOfSlice
+
+    vsg_template:
+      type: tosca.nodes.NetworkTemplate
+      properties:
+        visibility: private
+        translation: none
+        vtn_kind: VSG
+
+    vsg_network:
+      type: tosca.nodes.network.Network
+      properties:
+          ip_version: 4
+          cidr: 101.0.0.0/24
+      requirements:
+          - network_template:
+              node: vsg_template
+              relationship: tosca.relationships.UsesNetworkTemplate
+          - owner:
+              node: mysite_vbbu_slice1
+              relationship: tosca.relationships.MemberOfSlice
+          - connection:
+              node: mysite_vbbu_slice1
+              relationship: tosca.relationships.ConnectsToSlice
+
+    shared_network:
+      type: tosca.nodes.network.Network.XOS
+      properties:
+          ip_version: 4
+          cidr: 100.0.0.0/24
+      requirements:
+          - network_template:
+              node: External
+              relationship: tosca.relationships.UsesNetworkTemplate
+          - owner:
+              node: mysite_mobile_net
+              relationship: tosca.relationships.MemberOfSlice
+          - slice:
+              node: mysite_mobile_net
+              relationship: tosca.relationships.ConnectsToSlice
+
+    wan_network:
+      type: tosca.nodes.network.Network.XOS
+      properties:
+          ip_version: 4
+          cidr: 102.0.0.0/24
+      requirements:
+          - network_template:
+              node: External
+              relationship: tosca.relationships.UsesNetworkTemplate
+          - owner:
+              node: mysite_mobile_net
+              relationship: tosca.relationships.MemberOfSlice
+          - slice:
+              node: mysite_mobile_net
+              relationship: tosca.relationships.ConnectsToSlice
+
+    mysite:
+      type: tosca.nodes.Site
+
+#    mcord-bbu-multi-nic:
+#      type: tosca.nodes.Image
+
+#    mcord-vpgwc-onos-multi-nic:
+#      type: tosca.nodes.Image
+
+    trusty-server-multi-nic:
+      type: tosca.nodes.Image
+
+    nginx-web-server:
+      type: tosca.nodes.Image
+
+    mysite_management:
+      description: This slice exists solely to own the management network
+      type: tosca.nodes.Slice
+      properties:
+          network: noauto
+      requirements:
+          - site:
+              node: mysite
+              relationship: tosca.relationships.MemberOfSite
+
+    mysite_mobile_net:
+      description: This slice exists solely to own the mobile network
+      type: tosca.nodes.Slice
+      properties:
+          network: noauto
+      requirements:
+          - site:
+              node: mysite
+              relationship: tosca.relationships.MemberOfSite
+
+    mysite_vbbu_slice1:
+      description: vBBU Service Slice 1
+      type: tosca.nodes.Slice
+      requirements:
+          - vBBU:
+              node: vBBU
+              relationship: tosca.relationships.MemberOfService
+          - site:
+              node: mysite
+              relationship: tosca.relationships.MemberOfSite
+          - default_image:
+                node: trusty-server-multi-nic 
+                relationship: tosca.relationships.DefaultImage
+          - default_flavor:
+                node: m1.xlarge
+                relationship: tosca.relationships.DefaultFlavor
+          - connection_to_management:
+              node: management
+              relationship: tosca.relationships.ConnectsToNetwork
+          - connection_to_shared_network:
+              node: shared_network
+              relationship: tosca.relationships.ConnectsToNetwork
+          - connection_to_management_host:
+              node: management_host
+              relationship: tosca.relationships.ConnectsToNetwork
+      properties:
+          network: noauto
+#          default_flavor: m1.xlarge
+#default_node: computeBBU2 
+
+    mysite_vpgwc_slice1:
+      description: vPGWC Service Slice 1
+      type: tosca.nodes.Slice
+      requirements:
+          - vPGWC:
+              node: vPGWC
+              relationship: tosca.relationships.MemberOfService
+          - site:
+              node: mysite
+              relationship: tosca.relationships.MemberOfSite
+          - default_image:
+                node: trusty-server-multi-nic 
+                relationship: tosca.relationships.DefaultImage
+          - default_flavor:
+                node: m1.xlarge
+                relationship: tosca.relationships.DefaultFlavor
+          - connection_to_management:
+              node: management
+              relationship: tosca.relationships.ConnectsToNetwork
+          - connection_to_management_host:
+              node: management_host
+              relationship: tosca.relationships.ConnectsToNetwork
+          - connection_to_shared_network:
+              node: shared_network
+              relationship: tosca.relationships.ConnectsToNetwork
+          - connection_to_wan_network:
+              node: wan_network
+              relationship: tosca.relationships.ConnectsToNetwork
+      properties:
+          network: noauto
+
+    mysite_vsgw_slice1:
+      description: vSGW Service Slice 1
+      type: tosca.nodes.Slice
+      requirements:
+          - vSGW:
+              node: vSGW
+              relationship: tosca.relationships.MemberOfService
+          - site:
+              node: mysite
+              relationship: tosca.relationships.MemberOfSite
+          - default_image:
+                node: trusty-server-multi-nic
+                relationship: tosca.relationships.DefaultImage
+          - default_flavor:
+                node: m1.xlarge
+                relationship: tosca.relationships.DefaultFlavor
+          - connection_to_management:
+              node: management
+              relationship: tosca.relationships.ConnectsToNetwork
+          - connection_to_management_host:
+              node: management_host
+              relationship: tosca.relationships.ConnectsToNetwork
+          - connection_to_shared_network:
+              node: shared_network
+              relationship: tosca.relationships.ConnectsToNetwork
+      properties:
+          network: noauto
+
+
+    mysite_vmme_slice1:
+      description: vMME Service Slice 1
+      type: tosca.nodes.Slice
+      requirements:
+          - vMME:
+              node: vMME
+              relationship: tosca.relationships.MemberOfService
+          - site:
+              node: mysite
+              relationship: tosca.relationships.MemberOfSite
+          - default_image:
+                node: trusty-server-multi-nic
+                relationship: tosca.relationships.DefaultImage
+          - default_flavor:
+                node: m1.xlarge
+                relationship: tosca.relationships.DefaultFlavor
+          - connection_to_management:
+              node: management
+              relationship: tosca.relationships.ConnectsToNetwork
+          - connection_to_management_host:
+              node: management_host
+              relationship: tosca.relationships.ConnectsToNetwork
+          - connection_to_shared_network:
+              node: shared_network
+              relationship: tosca.relationships.ConnectsToNetwork
+      properties:
+          network: noauto
+
+    mysite_oai_slice1:
+      description: OAI Service Slice 1
+      type: tosca.nodes.Slice
+      requirements:
+          - oai:
+              node: oai
+              relationship: tosca.relationships.MemberOfService
+          - site:
+              node: mysite
+              relationship: tosca.relationships.MemberOfSite
+          - default_image:
+              node: nginx-web-server
+              relationship: tosca.relationships.DefaultImage
+          - default_flavor:
+              node: m1.xlarge
+              relationship: tosca.relationships.DefaultFlavor
+          - connection_to_management:
+              node: management
+              relationship: tosca.relationships.ConnectsToNetwork
+          - connection_to_management_host:
+              node: management_host
+              relationship: tosca.relationships.ConnectsToNetwork
+          - connection_to_wan_network:
+              node: wan_network
+              relationship: tosca.relationships.ConnectsToNetwork
+
+    tenant#oaitenant1:
+      type: tosca.nodes.OAIComponent
+      properties:
+          image_name: nginx-web-server
+      requirements:
+        - tenant:
+            node: oai
+            relationship: tosca.relationships.MemberOfService
+        - dependency:
+            node: mysite_oai_slice1
+            relationship: tosca.relationships.DependsOn
+
+
