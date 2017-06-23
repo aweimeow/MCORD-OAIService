@@ -130,7 +130,7 @@ class OAIComponentAdmin(ReadOnlyAwareAdmin):
                                     'display_message'],
                          'classes': ['suit-tab suit-tab-general']})]
     readonly_fields = ('backend_status_text', 'instance',)
-    form = VBBUComponentForm
+    form = OAIComponentForm
 
     suit_form_tabs = (('general', 'Details'),)
 

@@ -1,4 +1,4 @@
-from services.vbbu.models import MCORDService
+from services.oai.models import MCORDService
 from service import XOSService
 
 

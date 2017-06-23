@@ -7,7 +7,7 @@ imports:
 
 topology_template:
   node_templates:
-    servicecontroller#vbbu:
+    servicecontroller#oai:
       type: tosca.nodes.ServiceController
       properties:
           base_url: file:///opt/xos_services/oai/xos/

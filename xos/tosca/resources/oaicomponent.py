@@ -1,4 +1,4 @@
-from services.vbbu.models import OAIComponent, MCORDService
+from services.oai.models import OAIComponent, MCORDService
 from xosresource import XOSResource
 
 class XOSOAIComponent(XOSResource):
