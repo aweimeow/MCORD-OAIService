@@ -306,6 +306,9 @@ topology_template:
     m1.xlarge:
       type: tosca.nodes.Flavor
 
+    m1.large:
+      type: tosca.nodes.Flavor
+
     Private:
       type: tosca.nodes.NetworkTemplate
 
@@ -569,7 +572,7 @@ topology_template:
               node: nginx-web-server
               relationship: tosca.relationships.DefaultImage
           - default_flavor:
-              node: m1.xlarge
+              node: m1.large
               relationship: tosca.relationships.DefaultFlavor
           - connection_to_management:
               node: management
