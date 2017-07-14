@@ -95,6 +95,7 @@ class OAIComponentForm(forms.ModelForm):
             self.fields['creator'].initial = self.instance.creator
             self.fields[
                 'display_message'].initial = self.instance.display_message
+            self.fields['image_name'].initial = self.instance.image_name
 
         # If there is not an instance then we need to set initial values.
         if (not self.instance) or (not self.instance.pk):
@@ -109,6 +110,7 @@ class OAIComponentForm(forms.ModelForm):
         self.instance.creator = self.cleaned_data.get("creator")
         self.instance.display_message = self.cleaned_data.get(
             "display_message")
+        self.instance.image_name = self.cleaned_data.get('image_name')
         return super(OAIComponentForm, self).save(commit=commit)
 
     class Meta:
@@ -122,12 +124,12 @@ class OAIComponentForm(forms.ModelForm):
 class OAIComponentAdmin(ReadOnlyAwareAdmin):
     verbose_name = "OAI Component"
     verbose_name_plural = "OAI Components"
-    list_display = ('id', 'backend_status_icon', 'instance', 'display_message')
+    list_display = ('id', 'backend_status_icon', 'instance', 'display_message', 'image_name')
     list_display_links = ('backend_status_icon', 'instance', 'display_message',
-                          'id')
+                          'id', 'image_name')
     fieldsets = [(None, {'fields': ['backend_status_text', 'kind',
                                     'provider_service', 'instance', 'creator',
-                                    'display_message'],
+                                    'display_message', 'image_name'],
                          'classes': ['suit-tab suit-tab-general']})]
     readonly_fields = ('backend_status_text', 'instance',)
     form = OAIComponentForm

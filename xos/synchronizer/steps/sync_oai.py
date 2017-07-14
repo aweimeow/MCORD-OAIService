@@ -34,4 +34,5 @@ class SyncOAIComponent(SyncInstanceUsingAnsible):
         return objs
 
     def get_extra_attributes(self, o):
-        return {"display_message": o.display_message}
+        return {"display_message": o.display_message, 
+                "image_name": o.image_name}

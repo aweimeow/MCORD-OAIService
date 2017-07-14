@@ -4,7 +4,7 @@ from xosresource import XOSResource
 class XOSOAIComponent(XOSResource):
     provides = "tosca.nodes.OAIComponent"
     xos_model = OAIComponent
-    copyin_props = ["display_message"]
+    copyin_props = ["display_message", "image_name"]
     name_field = None
 
     def get_xos_args(self, throw_exception=True):

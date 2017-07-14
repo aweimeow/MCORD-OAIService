@@ -58,6 +58,8 @@ class OAIComponent(TenantWithContainer):
     def __init__(self, *args, **kwargs):
         mcord_services = MCORDService.get_service_objects().all()
 
+        self.default_attributes = {"image_name": "trusty-server-multi-nic"}
+
         # When the tenant is created the default service in the form is set
         # to be the first created HelloWorldServiceComplete
         if mcord_services:
@@ -203,6 +205,23 @@ class OAIComponent(TenantWithContainer):
 
         return addresses
 
+    @property
+    def image_name(self):
+        return self.get_attribute(
+            "image_name",
+            self.default_attributes['image_name'])
+
+    @image_name.setter
+    def image_name(self, value):
+        self.set_attribute("image_name", value)
+
+    @property
+    def image(self):
+        img = self.image_name.strip()
+        if img.lower() != 'default':
+            return Image.objects.get(name=img)
+        else:
+            return super(OAIComponent, self).image
 
 def model_policy_mcord_servicecomponent(pk):
     # This section of code is atomic to prevent race conditions

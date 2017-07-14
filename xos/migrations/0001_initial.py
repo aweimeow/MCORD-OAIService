@@ -14,6 +14,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MCORDService',
             fields=[
+                'image_name',
             ],
             options={
                 'verbose_name': 'MCORD Service',
