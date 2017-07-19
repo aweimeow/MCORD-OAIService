@@ -404,6 +404,77 @@ topology_template:
 #                node: mysite_mobile_net
 #                relationship: tosca.relationships.ConnectsToSlice
 
+    addresses_vsg:
+        type: tosca.nodes.AddressPool
+        properties:
+            addresses: 10.6.1.128/26
+            gateway_ip: 10.6.1.129
+            gateway_mac: 02:42:0a:06:01:01
+
+    addresses_public:
+        type: tosca.nodes.AddressPool
+        properties:
+            addresses: 10.6.1.192/26
+            gateway_ip: 10.6.1.193
+            gateway_mac: 02:42:0a:06:01:01
+
+    service#vrouter:
+        type: tosca.nodes.VRouterService
+        properties:
+            view_url: /admin/vrouter/vrouterservice/$id$/
+            replaces: service_vrouter
+        requirements:
+            - addresses_vsg:
+                node: addresses_vsg
+                relationship: tosca.relationships.ProvidesAddresses
+            - addresses_public:
+                node: addresses_public
+                relationship: tosca.relationships.ProvidesAddresses
+
+    service#vsg:
+        type: tosca.nodes.VSGService
+        requirements:
+            - vrouter_tenant:
+                node: service#vrouter
+                relationship: tosca.relationships.TenantOfService
+        properties:
+            view_url: /admin/vsg/vsgservice/$id$/
+            backend_network_label: hpc_client
+            public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
+            private_key_fn: /opt/xos/services/vsg/keys/vsg_rsa
+            replaces: service_vsg
+        artifacts:
+            pubkey: /opt/xos/services/vsg/keys/vsg_rsa.pub
+
+    service#ONOS_CORD:
+        type: tosca.nodes.ONOSService
+        properties:
+            no-delete: true
+            no-create: true
+            no-update: true
+
+    public_template:
+        type: tosca.nodes.NetworkTemplate
+        properties:
+            visibility: private
+            translation: none
+            vtn_kind: PUBLIC
+
+    public:
+        type: tosca.nodes.network.Network
+        properties:
+            ip_version: 4
+      requirements:
+            - network_template:
+                node: public_template
+                relationship: tosca.relationships.UsesNetworkTemplate
+            - owner:
+                node: mysite
+                relationship: tosca.relationships.MemberOfSlice
+            - vrouter_tenant:
+                node: service#vrouter
+                relationship: tosca.relationships.TenantOfService
+
     mysite:
         type: tosca.nodes.Site
 
@@ -577,7 +648,7 @@ topology_template:
                 node: management_host
                 relationship: tosca.relationships.ConnectsToNetwork
             - connection_to_wan_network:
-                node: wan_network
+                node: public
                 relationship: tosca.relationships.ConnectsToNetwork
 
     tenant#oaitenant1:
