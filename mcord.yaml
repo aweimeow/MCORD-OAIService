@@ -464,12 +464,12 @@ topology_template:
         type: tosca.nodes.network.Network
         properties:
             ip_version: 4
-      requirements:
+        requirements:
             - network_template:
                 node: public_template
                 relationship: tosca.relationships.UsesNetworkTemplate
             - owner:
-                node: mysite
+                node: mysite_public
                 relationship: tosca.relationships.MemberOfSlice
             - vrouter_tenant:
                 node: service#vrouter
@@ -489,6 +489,16 @@ topology_template:
 
     nginx-web-server:
         type: tosca.nodes.Image
+
+    mysite_public:
+        description: This slice exists solely to own the public network
+        type: tosca.nodes.Slice
+        properties:
+            network: noauto
+        requirements:
+            - site:
+                node: mysite
+                relationship: tosca.relationships.MemberOfSite
 
     mysite_management:
         description: This slice exists solely to own the management network
@@ -529,10 +539,10 @@ topology_template:
             - connection_to_management:
                 node: management
                 relationship: tosca.relationships.ConnectsToNetwork
-          - connection_to_shared_network:
+            - connection_to_shared_network:
                 node: shared_network
                 relationship: tosca.relationships.ConnectsToNetwork
-          - connection_to_management_host:
+            - connection_to_management_host:
                 node: management_host
                 relationship: tosca.relationships.ConnectsToNetwork
         properties:
@@ -564,7 +574,7 @@ topology_template:
                 node: shared_network
                 relationship: tosca.relationships.ConnectsToNetwork
             - connection_to_wan_network:
-                node: wan_network
+                node: public
                 relationship: tosca.relationships.ConnectsToNetwork
         properties:
             network: noauto
