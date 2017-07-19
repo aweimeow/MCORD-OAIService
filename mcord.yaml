@@ -240,360 +240,354 @@ topology_template:
   node_templates:
 
     oai:
-      type: tosca.nodes.MCORDService
-      requirements:
-      properties:
-          kind: vEPC
-          icon_url: /static/mCordServices/service_server.png
-          view_url: /admin/oai/oaicomponent
-          public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
-          private_key_fn: /opt/xos/services/oai/keys/oai_rsa
-      artifacts:
-          pubkey: /opt/xos/services/oai/keys/oai_rsa.pub
+        type: tosca.nodes.MCORDService
+        requirements:
+        properties:
+            kind: vEPC
+            icon_url: /static/mCordServices/service_server.png
+            view_url: /admin/oai/oaicomponent
+            public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
+            private_key_fn: /opt/xos/services/oai/keys/oai_rsa
+        artifacts:
+            pubkey: /opt/xos/services/oai/keys/oai_rsa.pub
 
     vBBU:
-      type: tosca.nodes.MCORDService
-      requirements:
-      properties:
-          kind: RAN
-          icon_url: /static/mCordServices/service_server.png
-          view_url: /admin/vbbu/vbbucomponent
-          public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
-          private_key_fn: /opt/xos/services/vbbu/keys/vBBU_rsa
-      artifacts:
-          pubkey: /opt/xos/services/vbbu/keys/vBBU_rsa.pub
+        type: tosca.nodes.MCORDService
+        requirements:
+        properties:
+            kind: RAN
+            icon_url: /static/mCordServices/service_server.png
+            view_url: /admin/vbbu/vbbucomponent
+            public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
+            private_key_fn: /opt/xos/services/vbbu/keys/vBBU_rsa
+        artifacts:
+            pubkey: /opt/xos/services/vbbu/keys/vBBU_rsa.pub
 
     vPGWC:
-      type: tosca.nodes.MCORDService
-      requirements:
-      properties:
-          kind: vEPC
-          icon_url: /static/mCordServices/service_server.png
-          view_url: /admin/vpgwc/vpgwccomponent
-          public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
-          private_key_fn: /opt/xos/services/vpgwc/keys/vPGWC_rsa
-      artifacts:
-          pubkey: /opt/xos/services/vpgwc/keys/vPGWC_rsa.pub
+        type: tosca.nodes.MCORDService
+        requirements:
+        properties:
+            kind: vEPC
+            icon_url: /static/mCordServices/service_server.png
+            view_url: /admin/vpgwc/vpgwccomponent
+            public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
+            private_key_fn: /opt/xos/services/vpgwc/keys/vPGWC_rsa
+        artifacts:
+            pubkey: /opt/xos/services/vpgwc/keys/vPGWC_rsa.pub
 
     vSGW:
-      type: tosca.nodes.MCORDService
-      requirements:
-      properties:
-          kind: vEPC
-          icon_url: /static/mCordServices/service_server.png
-          view_url: /admin/vsgw/vsgwtenant
-          public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
-          private_key_fn: /opt/xos/services/vsgw/keys/vSGW_rsa
-      artifacts:
-          pubkey: /opt/xos/services/vsgw/keys/vSGW_rsa.pub
+        type: tosca.nodes.MCORDService
+        requirements:
+        properties:
+            kind: vEPC
+            icon_url: /static/mCordServices/service_server.png
+            view_url: /admin/vsgw/vsgwtenant
+            public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
+            private_key_fn: /opt/xos/services/vsgw/keys/vSGW_rsa
+        artifacts:
+            pubkey: /opt/xos/services/vsgw/keys/vSGW_rsa.pub
 
     vMME:
-      type: tosca.nodes.VMMEService
-      requirements:
-          - management:
-              node: management
-              relationship: tosca.relationships.UsesNetwork
-      properties:
-          kind: vEPC
-          icon_url: /static/mCordServices/service_server.png
-          view_url: /admin/vmme/vmmetenant
-          public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
-          private_key_fn: /opt/xos/services/vmme/keys/vMME_rsa
-      artifacts:
-          pubkey: /opt/xos/services/vmme/keys/vMME_rsa.pub
-
+        type: tosca.nodes.VMMEService
+        requirements:
+            - management:
+                node: management
+                relationship: tosca.relationships.UsesNetwork
+        properties:
+            kind: vEPC
+            icon_url: /static/mCordServices/service_server.png
+            view_url: /admin/vmme/vmmetenant
+            public_key: { get_artifact: [ SELF, pubkey, LOCAL_FILE] }
+            private_key_fn: /opt/xos/services/vmme/keys/vMME_rsa
+        artifacts:
+            pubkey: /opt/xos/services/vmme/keys/vMME_rsa.pub
 
     m1.xlarge:
-      type: tosca.nodes.Flavor
+        type: tosca.nodes.Flavor
 
     m1.large:
-      type: tosca.nodes.Flavor
+        type: tosca.nodes.Flavor
 
     Private:
-      type: tosca.nodes.NetworkTemplate
+        type: tosca.nodes.NetworkTemplate
 
     External:
-      type: tosca.nodes.NetworkTemplate
+        type: tosca.nodes.NetworkTemplate
 
     management_template:
-      type: tosca.nodes.NetworkTemplate
-      properties:
-          visibility: private
-          translation: none
+        type: tosca.nodes.NetworkTemplate
+        properties:
+            visibility: private
+            translation: none
 
     management:
-      type: tosca.nodes.network.Network.XOS
-#      properties:
-#          no-create: true
-#          no-delete: true
-#          no-update: true
+        type: tosca.nodes.network.Network.XOS
+#        properties:
+#            no-create: true
+#            no-delete: true
+#            no-update: true
 
     management_hosts_template:
-      type: tosca.nodes.NetworkTemplate
-      properties:
-          visibility: private
-          translation: none
-          vtn_kind: MANAGEMENT_HOST
+        type: tosca.nodes.NetworkTemplate
+        properties:
+            visibility: private
+            translation: none
+            vtn_kind: MANAGEMENT_HOST
 
     management_host:
-      type: tosca.nodes.network.Network.XOS
-      properties:
-          ip_version: 4
-          cidr: 10.6.0.0/24
-          start_ip: 10.6.0.128
-          end_ip: 10.6.0.254
-      requirements:
-          - network_template:
-              node: management_hosts_template
-              relationship: tosca.relationships.UsesNetworkTemplate
-          - owner:
-              node: mysite_management
-              relationship: tosca.relationships.MemberOfSlice
+        type: tosca.nodes.network.Network.XOS
+        properties:
+            ip_version: 4
+            cidr: 10.6.0.0/24
+            start_ip: 10.6.0.128
+            end_ip: 10.6.0.254
+        requirements:
+            - network_template:
+                node: management_hosts_template
+                relationship: tosca.relationships.UsesNetworkTemplate
+            - owner:
+                node: mysite_management
+                relationship: tosca.relationships.MemberOfSlice
 
     vsg_template:
-      type: tosca.nodes.NetworkTemplate
-      properties:
-        visibility: private
-        translation: none
-        vtn_kind: VSG
+        type: tosca.nodes.NetworkTemplate
+        properties:
+          visibility: private
+          translation: none
+          vtn_kind: VSG
 
     vsg_network:
-      type: tosca.nodes.network.Network
-      properties:
-          ip_version: 4
-          cidr: 101.0.0.0/24
-      requirements:
-          - network_template:
-              node: vsg_template
-              relationship: tosca.relationships.UsesNetworkTemplate
-          - owner:
-              node: mysite_vbbu_slice1
-              relationship: tosca.relationships.MemberOfSlice
-          - connection:
-              node: mysite_vbbu_slice1
-              relationship: tosca.relationships.ConnectsToSlice
+        type: tosca.nodes.network.Network
+        properties:
+            ip_version: 4
+            cidr: 101.0.0.0/24
+        requirements:
+            - network_template:
+                node: vsg_template
+                relationship: tosca.relationships.UsesNetworkTemplate
+            - owner:
+                node: mysite_vbbu_slice1
+                relationship: tosca.relationships.MemberOfSlice
+            - connection:
+                node: mysite_vbbu_slice1
+                relationship: tosca.relationships.ConnectsToSlice
 
     shared_network:
-      type: tosca.nodes.network.Network.XOS
-      properties:
-          ip_version: 4
-          cidr: 100.0.0.0/24
-      requirements:
-          - network_template:
-              node: External
-              relationship: tosca.relationships.UsesNetworkTemplate
-          - owner:
-              node: mysite_mobile_net
-              relationship: tosca.relationships.MemberOfSlice
-          - slice:
-              node: mysite_mobile_net
-              relationship: tosca.relationships.ConnectsToSlice
+        type: tosca.nodes.network.Network.XOS
+        properties:
+            ip_version: 4
+            cidr: 100.0.0.0/24
+        requirements:
+            - network_template:
+                node: External
+                relationship: tosca.relationships.UsesNetworkTemplate
+            - owner:
+                node: mysite_mobile_net
+                relationship: tosca.relationships.MemberOfSlice
+            - slice:
+                node: mysite_mobile_net
+                relationship: tosca.relationships.ConnectsToSlice
 
-    wan_network:
-      type: tosca.nodes.network.Network.XOS
-      properties:
-          ip_version: 4
-          cidr: 102.0.0.0/24
-      requirements:
-          - network_template:
-              node: External
-              relationship: tosca.relationships.UsesNetworkTemplate
-          - owner:
-              node: mysite_mobile_net
-              relationship: tosca.relationships.MemberOfSlice
-          - slice:
-              node: mysite_mobile_net
-              relationship: tosca.relationships.ConnectsToSlice
+#    wan_network:
+#        type: tosca.nodes.network.Network.XOS
+#        properties:
+#            ip_version: 4
+#            cidr: 102.0.0.0/24
+#        requirements:
+#            - network_template:
+#                node: External
+#                relationship: tosca.relationships.UsesNetworkTemplate
+#            - owner:
+#                node: mysite_mobile_net
+#                relationship: tosca.relationships.MemberOfSlice
+#            - slice:
+#                node: mysite_mobile_net
+#                relationship: tosca.relationships.ConnectsToSlice
 
     mysite:
-      type: tosca.nodes.Site
+        type: tosca.nodes.Site
 
 #    mcord-bbu-multi-nic:
-#      type: tosca.nodes.Image
+#        type: tosca.nodes.Image
 
 #    mcord-vpgwc-onos-multi-nic:
-#      type: tosca.nodes.Image
+#        type: tosca.nodes.Image
 
     trusty-server-multi-nic:
-      type: tosca.nodes.Image
+        type: tosca.nodes.Image
 
     nginx-web-server:
-      type: tosca.nodes.Image
+        type: tosca.nodes.Image
 
     mysite_management:
-      description: This slice exists solely to own the management network
-      type: tosca.nodes.Slice
-      properties:
-          network: noauto
-      requirements:
-          - site:
-              node: mysite
-              relationship: tosca.relationships.MemberOfSite
+        description: This slice exists solely to own the management network
+        type: tosca.nodes.Slice
+        properties:
+            network: noauto
+        requirements:
+            - site:
+                node: mysite
+                relationship: tosca.relationships.MemberOfSite
 
     mysite_mobile_net:
-      description: This slice exists solely to own the mobile network
-      type: tosca.nodes.Slice
-      properties:
-          network: noauto
-      requirements:
-          - site:
-              node: mysite
-              relationship: tosca.relationships.MemberOfSite
+        description: This slice exists solely to own the mobile network
+        type: tosca.nodes.Slice
+        properties:
+            network: noauto
+        requirements:
+            - site:
+                node: mysite
+                relationship: tosca.relationships.MemberOfSite
 
     mysite_vbbu_slice1:
-      description: vBBU Service Slice 1
-      type: tosca.nodes.Slice
-      requirements:
-          - vBBU:
-              node: vBBU
-              relationship: tosca.relationships.MemberOfService
-          - site:
-              node: mysite
-              relationship: tosca.relationships.MemberOfSite
-          - default_image:
+        description: vBBU Service Slice 1
+        type: tosca.nodes.Slice
+        requirements:
+            - vBBU:
+                node: vBBU
+                relationship: tosca.relationships.MemberOfService
+            - site:
+                node: mysite
+                relationship: tosca.relationships.MemberOfSite
+            - default_image:
                 node: trusty-server-multi-nic 
                 relationship: tosca.relationships.DefaultImage
-          - default_flavor:
+            - default_flavor:
                 node: m1.xlarge
                 relationship: tosca.relationships.DefaultFlavor
-          - connection_to_management:
-              node: management
-              relationship: tosca.relationships.ConnectsToNetwork
+            - connection_to_management:
+                node: management
+                relationship: tosca.relationships.ConnectsToNetwork
           - connection_to_shared_network:
-              node: shared_network
-              relationship: tosca.relationships.ConnectsToNetwork
+                node: shared_network
+                relationship: tosca.relationships.ConnectsToNetwork
           - connection_to_management_host:
-              node: management_host
-              relationship: tosca.relationships.ConnectsToNetwork
-      properties:
-          network: noauto
-#          default_flavor: m1.xlarge
-#default_node: computeBBU2 
+                node: management_host
+                relationship: tosca.relationships.ConnectsToNetwork
+        properties:
+            network: noauto
 
     mysite_vpgwc_slice1:
-      description: vPGWC Service Slice 1
-      type: tosca.nodes.Slice
-      requirements:
-          - vPGWC:
-              node: vPGWC
-              relationship: tosca.relationships.MemberOfService
-          - site:
-              node: mysite
-              relationship: tosca.relationships.MemberOfSite
-          - default_image:
-                node: trusty-server-multi-nic 
-                relationship: tosca.relationships.DefaultImage
-          - default_flavor:
-                node: m1.xlarge
-                relationship: tosca.relationships.DefaultFlavor
-          - connection_to_management:
-              node: management
-              relationship: tosca.relationships.ConnectsToNetwork
-          - connection_to_management_host:
-              node: management_host
-              relationship: tosca.relationships.ConnectsToNetwork
-          - connection_to_shared_network:
-              node: shared_network
-              relationship: tosca.relationships.ConnectsToNetwork
-          - connection_to_wan_network:
-              node: wan_network
-              relationship: tosca.relationships.ConnectsToNetwork
-      properties:
-          network: noauto
+        description: vPGWC Service Slice 1
+        type: tosca.nodes.Slice
+        requirements:
+            - vPGWC:
+                node: vPGWC
+                relationship: tosca.relationships.MemberOfService
+            - site:
+                node: mysite
+                relationship: tosca.relationships.MemberOfSite
+            - default_image:
+                  node: trusty-server-multi-nic 
+                  relationship: tosca.relationships.DefaultImage
+            - default_flavor:
+                  node: m1.xlarge
+                  relationship: tosca.relationships.DefaultFlavor
+            - connection_to_management:
+                node: management
+                relationship: tosca.relationships.ConnectsToNetwork
+            - connection_to_management_host:
+                node: management_host
+                relationship: tosca.relationships.ConnectsToNetwork
+            - connection_to_shared_network:
+                node: shared_network
+                relationship: tosca.relationships.ConnectsToNetwork
+            - connection_to_wan_network:
+                node: wan_network
+                relationship: tosca.relationships.ConnectsToNetwork
+        properties:
+            network: noauto
 
     mysite_vsgw_slice1:
-      description: vSGW Service Slice 1
-      type: tosca.nodes.Slice
-      requirements:
-          - vSGW:
-              node: vSGW
-              relationship: tosca.relationships.MemberOfService
-          - site:
-              node: mysite
-              relationship: tosca.relationships.MemberOfSite
-          - default_image:
-                node: trusty-server-multi-nic
-                relationship: tosca.relationships.DefaultImage
-          - default_flavor:
-                node: m1.xlarge
-                relationship: tosca.relationships.DefaultFlavor
-          - connection_to_management:
-              node: management
-              relationship: tosca.relationships.ConnectsToNetwork
-          - connection_to_management_host:
-              node: management_host
-              relationship: tosca.relationships.ConnectsToNetwork
-          - connection_to_shared_network:
-              node: shared_network
-              relationship: tosca.relationships.ConnectsToNetwork
-      properties:
-          network: noauto
-
+        description: vSGW Service Slice 1
+        type: tosca.nodes.Slice
+        requirements:
+            - vSGW:
+                node: vSGW
+                relationship: tosca.relationships.MemberOfService
+            - site:
+                node: mysite
+                relationship: tosca.relationships.MemberOfSite
+            - default_image:
+                  node: trusty-server-multi-nic
+                  relationship: tosca.relationships.DefaultImage
+            - default_flavor:
+                  node: m1.xlarge
+                  relationship: tosca.relationships.DefaultFlavor
+            - connection_to_management:
+                node: management
+                relationship: tosca.relationships.ConnectsToNetwork
+            - connection_to_management_host:
+                node: management_host
+                relationship: tosca.relationships.ConnectsToNetwork
+            - connection_to_shared_network:
+                node: shared_network
+                relationship: tosca.relationships.ConnectsToNetwork
+        properties:
+            network: noauto
 
     mysite_vmme_slice1:
-      description: vMME Service Slice 1
-      type: tosca.nodes.Slice
-      requirements:
-          - vMME:
-              node: vMME
-              relationship: tosca.relationships.MemberOfService
-          - site:
-              node: mysite
-              relationship: tosca.relationships.MemberOfSite
-          - default_image:
-                node: trusty-server-multi-nic
-                relationship: tosca.relationships.DefaultImage
-          - default_flavor:
-                node: m1.xlarge
-                relationship: tosca.relationships.DefaultFlavor
-          - connection_to_management:
-              node: management
-              relationship: tosca.relationships.ConnectsToNetwork
-          - connection_to_management_host:
-              node: management_host
-              relationship: tosca.relationships.ConnectsToNetwork
-          - connection_to_shared_network:
-              node: shared_network
-              relationship: tosca.relationships.ConnectsToNetwork
-      properties:
-          network: noauto
+        description: vMME Service Slice 1
+        type: tosca.nodes.Slice
+        requirements:
+            - vMME:
+                node: vMME
+                relationship: tosca.relationships.MemberOfService
+            - site:
+                node: mysite
+                relationship: tosca.relationships.MemberOfSite
+            - default_image:
+                  node: trusty-server-multi-nic
+                  relationship: tosca.relationships.DefaultImage
+            - default_flavor:
+                  node: m1.xlarge
+                  relationship: tosca.relationships.DefaultFlavor
+            - connection_to_management:
+                node: management
+                relationship: tosca.relationships.ConnectsToNetwork
+            - connection_to_management_host:
+                node: management_host
+                relationship: tosca.relationships.ConnectsToNetwork
+            - connection_to_shared_network:
+                node: shared_network
+                relationship: tosca.relationships.ConnectsToNetwork
+        properties:
+            network: noauto
 
     mysite_oai_slice1:
-      description: OAI Service Slice 1
-      type: tosca.nodes.Slice
-      requirements:
-          - oai:
-              node: oai
-              relationship: tosca.relationships.MemberOfService
-          - site:
-              node: mysite
-              relationship: tosca.relationships.MemberOfSite
-          - default_image:
-              node: nginx-web-server
-              relationship: tosca.relationships.DefaultImage
-          - default_flavor:
-              node: m1.large
-              relationship: tosca.relationships.DefaultFlavor
-          - connection_to_management:
-              node: management
-              relationship: tosca.relationships.ConnectsToNetwork
-          - connection_to_management_host:
-              node: management_host
-              relationship: tosca.relationships.ConnectsToNetwork
-          - connection_to_wan_network:
-              node: wan_network
-              relationship: tosca.relationships.ConnectsToNetwork
+        description: OAI Service Slice 1
+        type: tosca.nodes.Slice
+        requirements:
+            - oai:
+                node: oai
+                relationship: tosca.relationships.MemberOfService
+            - site:
+                node: mysite
+                relationship: tosca.relationships.MemberOfSite
+            - default_image:
+                node: nginx-web-server
+                relationship: tosca.relationships.DefaultImage
+            - default_flavor:
+                node: m1.large
+                relationship: tosca.relationships.DefaultFlavor
+            - connection_to_management:
+                node: management
+                relationship: tosca.relationships.ConnectsToNetwork
+            - connection_to_management_host:
+                node: management_host
+                relationship: tosca.relationships.ConnectsToNetwork
+            - connection_to_wan_network:
+                node: wan_network
+                relationship: tosca.relationships.ConnectsToNetwork
 
     tenant#oaitenant1:
-      type: tosca.nodes.OAIComponent
-      properties:
-          image_name: nginx-web-server
-      requirements:
-        - tenant:
-            node: oai
-            relationship: tosca.relationships.MemberOfService
-        - dependency:
-            node: mysite_oai_slice1
-            relationship: tosca.relationships.DependsOn
-
-
+        type: tosca.nodes.OAIComponent
+        properties:
+            image_name: nginx-web-server
+        requirements:
+          - tenant:
+              node: oai
+              relationship: tosca.relationships.MemberOfService
+          - dependency:
+              node: mysite_oai_slice1
+              relationship: tosca.relationships.DependsOn
