@@ -1,0 +1,16 @@
+option name = "oai";
+option verbose_name = "Open Air Interface";
+option app_label = "oai";
+option kind = "vEPC";
+option legacy = "True";
+
+message OAIService (Service){
+    option name = "OAIService";
+    option verbose_name = "Open Air Interface Service";
+}
+
+message OAITenant (TenantWithContainer){
+     option name = "OAITenant";
+     option verbose_name = "Open Air Interface Tenant";
+     required string tenant_message = 1 [help_text = "Tenant Message to Display", max_length = 254, null = False, db_index = False, blank = False];
+}

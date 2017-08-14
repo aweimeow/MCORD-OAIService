@@ -1,0 +1,8 @@
+---
+- hosts: {{ instance_name }}
+  gather_facts: False
+  connection: ssh
+  user: ubuntu
+  become: yes
+  vars:
+    - tenant_message: "{{ tenant_message }}"
