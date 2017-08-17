@@ -6,11 +6,11 @@ from core.models import Service, TenantWithContainer
 from django.db import transaction
 from django.db.models import *
 
-class OAIService(VBBUService_decl):
+class OAIService(OAIService_decl):
    class Meta:
         proxy = True 
 
-class OAITenant(VBBUTenant_decl):
+class OAITenant(OAITenant_decl):
    class Meta:
         proxy = True 
 

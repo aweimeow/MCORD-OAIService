@@ -3,7 +3,7 @@ from core.models import Tenant, Service
 from services.oai.models import OAITenant
 
 class XOSOAITenant(XOSResource):
-    provides = "tosca.nodes.VBBUTenant"
+    provides = "tosca.nodes.OAITenant"
     xos_model = OAITenant
     copyin_props = ("tenant_message",)
     name_field = None
